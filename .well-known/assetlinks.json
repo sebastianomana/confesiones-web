@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.confesiones",
+      "sha256_cert_fingerprints": [
+        "55:64:2E:CF:C8:42:E5:B5:0B:B8:75:4E:48:4A:17:89:1B:D1:10:3C:CF:01:C0:A0:5B:38:CA:72:76:01:FD:4B"
+      ]
+    }
+  }
+]
