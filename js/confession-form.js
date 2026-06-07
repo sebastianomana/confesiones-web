@@ -27,13 +27,15 @@ window.sendConfession = async function () {
 
     const { error } = await supabase
         .from('confessions')
-        .insert({
-            message: message,
-            profile_id: null,
-            is_anonymous: true,
-            source: 'event',
-            status: 'pending',
-        });
+       .insert({
+    message: message,
+    profile_id: null,
+    receiver_profile_id:
+        window.receiverProfileId ?? null,
+    is_anonymous: true,
+    source: 'event',
+    status: 'pending',
+});
 
     if (error) {
 
