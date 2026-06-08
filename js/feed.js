@@ -26,12 +26,31 @@ export async function loadFeed() {
         return;
     }
 
+    if (!window.receiverProfileId) {
+    feed.innerHTML = `
+        <div style="
+            text-align:center;
+            padding:20px;
+            color:#666;
+        ">
+            Usuario no encontrado.
+        </div>
+    `;
+    return;
+}
+
     const { data: confessions, error } = await supabase
-        .from('confessions')
-        .select('*')
-        .eq('status', 'approved')
-        .order('created_at', { ascending: false })
-        .limit(50);
+    .from('confessions')
+    .select('*')
+    .eq('status', 'approved')
+    .eq(
+        'receiver_profile_id',
+        window.receiverProfileId
+    )
+    .order('created_at', {
+        ascending: false,
+    })
+    .limit(50);
 
     if (error) {
         console.error(error);
