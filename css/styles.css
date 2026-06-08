@@ -115,3 +115,54 @@ button:hover {
     margin-top:12px;
     color:#555;
 }
+
+.comments-box{
+    margin-top:15px;
+    padding-top:15px;
+    border-top:1px solid #ececec;
+}
+
+.comment-item{
+    background:#faf7ff;
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:10px;
+}
+
+.comment-author{
+    color:#8b6fd1;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.comment-text{
+    color:#333;
+    line-height:1.4;
+}
+
+.comment-input{
+    width:100%;
+    min-height:80px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:12px;
+    margin-top:10px;
+}
+
+.comment-button{
+    width:100%;
+    margin-top:10px;
+    background:#b39ddb;
+    color:white;
+    border:none;
+    border-radius:12px;
+    padding:12px;
+    cursor:pointer;
+}
+
+.comment-empty{
+    text-align:center;
+    color:#999;
+    padding:10px;
+}

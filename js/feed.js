@@ -84,6 +84,29 @@ webLikes?.forEach(like => {
 
 });
 
+
+const { data: comments } =
+    await supabase
+        .from('web_comments')
+        .select(
+            'confession_id'
+        );
+
+const commentsMap = {};
+
+comments?.forEach(comment => {
+
+    commentsMap[
+        comment.confession_id
+    ] =
+        (
+            commentsMap[
+                comment.confession_id
+            ] || 0
+        ) + 1;
+
+});
+
     feed.innerHTML = '';
 
     confessions.forEach(confession => {
@@ -152,7 +175,7 @@ webLikes?.forEach(like => {
     data-id="${confession.id}"
     style="cursor:pointer;"
 >
-    💬 ${confession.comments_count || 0}
+    💬 ${commentsMap[confession.id] || 0}
 </span>
 
 <div
@@ -304,12 +327,18 @@ async function loadComments(
             ${
                 data.length
                     ? data.map(comment => `
-                        <div
-                            class="comment-item"
-                        >
-                            💬 ${comment.comment}
-                        </div>
-                    `).join('')
+    <div class="comment-item">
+
+        <div class="comment-author">
+            🎭 ${comment.alias || 'Anónimo'}
+        </div>
+
+        <div class="comment-text">
+            ${comment.comment}
+        </div>
+
+    </div>
+`).join('')
                     : `
                         <div
                             class="comment-empty"
@@ -320,11 +349,13 @@ async function loadComments(
             }
 
             <textarea
-                id="comment-input-${confessionId}"
-                placeholder="Escribe un comentario..."
-            ></textarea>
+    class="comment-input"
+    id="comment-input-${confessionId}"
+    placeholder="Escribe un comentario..."
+></textarea>
 
             <button
+    class="comment-button"
                 onclick="
                     submitComment(
                         '${confessionId}'
@@ -343,10 +374,24 @@ async function (
     confessionId
 ) {
 
-    let visitorId =
-        localStorage.getItem(
-            'visitor_id'
+    let anonymousAlias =
+    localStorage.getItem(
+        'anonymous_alias'
+    );
+
+if (!anonymousAlias) {
+
+    anonymousAlias =
+        'Anónimo #' +
+        Math.floor(
+            Math.random() * 1000
         );
+
+    localStorage.setItem(
+        'anonymous_alias',
+        anonymousAlias
+    );
+}
 
     const input =
         document.getElementById(
@@ -384,12 +429,14 @@ async function (
         await supabase
             .from('web_comments')
             .insert({
-                confession_id:
-                    confessionId,
-                visitor_id:
-                    visitorId,
-                comment
-            });
+    confession_id:
+        confessionId,
+    visitor_id:
+        visitorId,
+    alias:
+        anonymousAlias,
+    comment
+});
 
     if (error) {
 
