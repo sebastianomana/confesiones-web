@@ -148,12 +148,18 @@ webLikes?.forEach(like => {
 </span>
 
     <span
-        class="comment-btn"
-        data-id="${confession.id}"
-        style="cursor:pointer;"
-    >
-        💬 ${confession.comments_count || 0}
-    </span>
+    class="comment-btn"
+    data-id="${confession.id}"
+    style="cursor:pointer;"
+>
+    💬 ${confession.comments_count || 0}
+</span>
+
+<div
+    class="comments-container"
+    id="comments-${confession.id}"
+    style="display:none;"
+></div>
 
 </div>
 
@@ -223,4 +229,187 @@ btn.innerHTML = `
 );
 
     });
+
+    document
+.querySelectorAll('.comment-btn')
+.forEach(btn => {
+
+    btn.addEventListener(
+        'click',
+        async () => {
+
+            const confessionId =
+                btn.dataset.id;
+
+            const container =
+                document.getElementById(
+                    `comments-${confessionId}`
+                );
+
+            if (
+                container.style.display ===
+                'block'
+            ) {
+
+                container.style.display =
+                    'none';
+
+                return;
+            }
+
+            container.style.display =
+                'block';
+
+            await loadComments(
+                confessionId,
+                container
+            );
+
+        }
+    );
+
+});
 }
+
+async function loadComments(
+    confessionId,
+    container
+) {
+
+    const { data, error } =
+        await supabase
+            .from('web_comments')
+            .select('*')
+            .eq(
+                'confession_id',
+                confessionId
+            )
+            .order(
+                'created_at',
+                {
+                    ascending: true
+                }
+            );
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="comments-box">
+
+            ${
+                data.length
+                    ? data.map(comment => `
+                        <div
+                            class="comment-item"
+                        >
+                            💬 ${comment.comment}
+                        </div>
+                    `).join('')
+                    : `
+                        <div
+                            class="comment-empty"
+                        >
+                            Sin comentarios
+                        </div>
+                    `
+            }
+
+            <textarea
+                id="comment-input-${confessionId}"
+                placeholder="Escribe un comentario..."
+            ></textarea>
+
+            <button
+                onclick="
+                    submitComment(
+                        '${confessionId}'
+                    )
+                "
+            >
+                Comentar
+            </button>
+
+        </div>
+    `;
+}
+
+window.submitComment =
+async function (
+    confessionId
+) {
+
+    let visitorId =
+        localStorage.getItem(
+            'visitor_id'
+        );
+
+    const input =
+        document.getElementById(
+            `comment-input-${confessionId}`
+        );
+
+    const comment =
+        input.value.trim();
+
+    if (!comment) return;
+
+    const bannedWords = [
+        'puta',
+        'marica',
+        'gonorrea'
+    ];
+
+    const invalid =
+        bannedWords.some(word =>
+            comment
+                .toLowerCase()
+                .includes(word)
+        );
+
+    if (invalid) {
+
+        alert(
+            'Comentario bloqueado.'
+        );
+
+        return;
+    }
+
+    const { error } =
+        await supabase
+            .from('web_comments')
+            .insert({
+                confession_id:
+                    confessionId,
+                visitor_id:
+                    visitorId,
+                comment
+            });
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            'Error al comentar.'
+        );
+
+        return;
+    }
+
+    const container =
+        document.getElementById(
+            `comments-${confessionId}`
+        );
+
+    await loadComments(
+        confessionId,
+        container
+    );
+
+};
