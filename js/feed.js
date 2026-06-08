@@ -374,10 +374,15 @@ async function (
     confessionId
 ) {
 
+    let visitorId =
+        localStorage.getItem(
+            'visitor_id'
+        );
+
     let anonymousAlias =
-    localStorage.getItem(
-        'anonymous_alias'
-    );
+        localStorage.getItem(
+            'anonymous_alias'
+        );
 
 if (!anonymousAlias) {
 
