@@ -125,26 +125,51 @@ export async function loadFeed() {
     .forEach(btn => {
 
         btn.addEventListener(
-            'click',
-            async () => {
+    'click',
+    async () => {
 
-                const confessionId = btn.dataset.id;
+        const confessionId = btn.dataset.id;
 
-const localKey = `liked_${confessionId}`;
+        const localKey = `liked_${confessionId}`;
 
-if (localStorage.getItem(localKey)) {
+        if (localStorage.getItem(localKey)) {
 
-    alert('Ya diste like a esta confesión.');
+            alert(
+                'Ya diste like a esta confesión.'
+            );
 
-    return;
-}
+            return;
+        }
 
-localStorage.setItem(localKey, 'true');
+        const { error } = await supabase
+            .from('confession_likes')
+            .insert({
+                confession_id: confessionId,
+                profile_id: null
+            });
 
-alert('Like registrado');
+        if (error) {
 
-            }
+            console.error(error);
+
+            alert(
+                'Error al registrar el like.'
+            );
+
+            return;
+        }
+
+        localStorage.setItem(
+            localKey,
+            'true'
         );
+
+        alert(
+            'Like registrado'
+        );
+
+    }
+);
 
     });
 }
