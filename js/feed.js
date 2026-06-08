@@ -4,6 +4,20 @@ export async function loadFeed() {
 
     const feed = document.getElementById('feed');
 
+    let visitorId =
+    localStorage.getItem('visitor_id');
+
+if (!visitorId) {
+
+    visitorId =
+        crypto.randomUUID();
+
+    localStorage.setItem(
+        'visitor_id',
+        visitorId
+    );
+}
+
     // Revisar configuración
     const { data: setting } = await supabase
         .from('app_settings')
@@ -99,12 +113,26 @@ export async function loadFeed() {
     <div class="actions">
 
     <span
-        class="like-btn"
-        data-id="${confession.id}"
-        style="cursor:pointer;"
-    >
-        ❤️ ${confession.likes || 0}
-    </span>
+    class="like-btn"
+    data-id="${confession.id}"
+    data-liked="${
+        localStorage.getItem(
+            `liked_${confession.id}`
+        )
+            ? 'true'
+            : 'false'
+    }"
+    style="cursor:pointer;"
+>
+    ${
+      localStorage.getItem(
+        `liked_${confession.id}`
+      )
+        ? '❤️'
+        : '🤍'
+    }
+    ${confession.likes || 0}
+</span>
 
     <span
         class="comment-btn"
@@ -142,11 +170,11 @@ export async function loadFeed() {
         }
 
         const { error } = await supabase
-            .from('confession_likes')
-            .insert({
-                confession_id: confessionId,
-                profile_id: null
-            });
+    .from('web_likes')
+    .insert({
+        confession_id: confessionId,
+        visitor_id: visitorId
+    });
 
         if (error) {
 
@@ -164,9 +192,20 @@ export async function loadFeed() {
             'true'
         );
 
-        alert(
-            'Like registrado'
-        );
+        localStorage.setItem(
+    localKey,
+    'true'
+);
+
+btn.innerHTML =
+    btn.innerHTML.replace(
+        '🤍',
+        '❤️'
+    );
+
+alert(
+    'Like registrado'
+);
 
     }
 );
