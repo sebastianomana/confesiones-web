@@ -295,9 +295,10 @@ btn.innerHTML = `
     );
 
 });
+subscribeRealtime();
 }
 
-subscribeRealtime();
+
 
 async function loadComments(
     confessionId,
