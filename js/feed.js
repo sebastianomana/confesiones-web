@@ -128,9 +128,20 @@ export async function loadFeed() {
             'click',
             async () => {
 
-                alert(
-                    'Like funcionando. Próximo paso: guardar en Supabase.'
-                );
+                const confessionId = btn.dataset.id;
+
+const localKey = `liked_${confessionId}`;
+
+if (localStorage.getItem(localKey)) {
+
+    alert('Ya diste like a esta confesión.');
+
+    return;
+}
+
+localStorage.setItem(localKey, 'true');
+
+alert('Like registrado');
 
             }
         );
