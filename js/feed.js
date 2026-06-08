@@ -40,7 +40,7 @@ export async function loadFeed() {
 }
 
     const { data: confessions, error } = await supabase
-    .from('confessions')
+    .from('confession_feed')
     .select('*')
     .eq('status', 'approved')
     .eq(
@@ -62,15 +62,55 @@ export async function loadFeed() {
     confessions.forEach(confession => {
 
         feed.innerHTML += `
-            <div style="
-                background:white;
-                padding:15px;
-                margin-top:15px;
-                border-radius:12px;
-                box-shadow:0 2px 8px rgba(0,0,0,.08);
-            ">
-                ${confession.message}
+<div class="confession-card">
+
+    <div class="confession-header">
+        <div class="avatar">
+            ${
+              confession.is_anonymous
+                ? '🎭'
+                : '👤'
+            }
+        </div>
+
+        <div>
+            <div class="author">
+                ${
+                  confession.is_anonymous
+                    ? 'Usuario Anónimo'
+                    : 'Usuario'
+                }
             </div>
-        `;
+
+            <div class="time">
+                ${new Date(
+                  confession.created_at
+                ).toLocaleString()}
+            </div>
+        </div>
+    </div>
+
+    <div class="message">
+        ${confession.message}
+    </div>
+
+    <hr>
+
+    <div class="actions">
+
+        <span>
+            ❤️ ${confession.likes || 0}
+        </span>
+
+        <span>
+            💬 ${
+              confession.comments_count || 0
+            }
+        </span>
+
+    </div>
+
+</div>
+`;
     });
 }
