@@ -192,20 +192,19 @@ if (!visitorId) {
             'true'
         );
 
-        localStorage.setItem(
+    localStorage.setItem(
     localKey,
     'true'
 );
 
-btn.innerHTML =
-    btn.innerHTML.replace(
-        '🤍',
-        '❤️'
+const likesActuales =
+    parseInt(
+        btn.textContent.match(/\d+/)?.[0] || 0
     );
 
-alert(
-    'Like registrado'
-);
+btn.innerHTML = `
+    ❤️ ${likesActuales + 1}
+`;
 
     }
 );
