@@ -98,19 +98,42 @@ export async function loadFeed() {
 
     <div class="actions">
 
-        <span>
-            ❤️ ${confession.likes || 0}
-        </span>
+    <span
+        class="like-btn"
+        data-id="${confession.id}"
+        style="cursor:pointer;"
+    >
+        ❤️ ${confession.likes || 0}
+    </span>
 
-        <span>
-            💬 ${
-              confession.comments_count || 0
-            }
-        </span>
+    <span
+        class="comment-btn"
+        data-id="${confession.id}"
+        style="cursor:pointer;"
+    >
+        💬 ${confession.comments_count || 0}
+    </span>
 
-    </div>
+</div>
 
 </div>
 `;
+    });
+
+    document
+    .querySelectorAll('.like-btn')
+    .forEach(btn => {
+
+        btn.addEventListener(
+            'click',
+            async () => {
+
+                alert(
+                    'Like funcionando. Próximo paso: guardar en Supabase.'
+                );
+
+            }
+        );
+
     });
 }
