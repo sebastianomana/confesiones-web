@@ -1,5 +1,8 @@
 import { supabase } from './supabase.js';
 
+
+let realtimeStarted = false;
+
 export async function loadFeed() {
 
     const feed = document.getElementById('feed');
@@ -294,6 +297,8 @@ btn.innerHTML = `
 });
 }
 
+subscribeRealtime();
+
 async function loadComments(
     confessionId,
     container
@@ -464,4 +469,66 @@ if (!anonymousAlias) {
         container
     );
 
+    const commentBtn =
+    document.querySelector(
+        `.comment-btn[data-id="${confessionId}"]`
+    );
+
+if (commentBtn) {
+
+    const totalActual =
+        parseInt(
+            commentBtn.textContent.match(/\d+/)?.[0] || 0
+        );
+
+    commentBtn.innerHTML =
+        `💬 ${totalActual + 1}`;
+}
+
 };
+
+function subscribeRealtime() {
+
+    if (realtimeStarted) return;
+
+    realtimeStarted = true;
+
+    supabase
+        .channel('public-feed')
+
+        .on(
+            'postgres_changes',
+            {
+                event: '*',
+                schema: 'public',
+                table: 'web_comments'
+            },
+            () => {
+
+                console.log(
+                    'Comentario detectado'
+                );
+
+                loadFeed();
+            }
+        )
+
+        .on(
+            'postgres_changes',
+            {
+                event: '*',
+                schema: 'public',
+                table: 'web_likes'
+            },
+            () => {
+
+                console.log(
+                    'Like detectado'
+                );
+
+                loadFeed();
+            }
+        )
+
+        .subscribe();
+}
