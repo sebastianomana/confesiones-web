@@ -66,10 +66,23 @@ if (!visitorId) {
     })
     .limit(50);
 
+    const { data: webLikes } = await supabase
+    .from('web_likes')
+    .select('confession_id');
+
     if (error) {
         console.error(error);
         return;
     }
+
+    const likesMap = {};
+
+webLikes?.forEach(like => {
+
+    likesMap[like.confession_id] =
+        (likesMap[like.confession_id] || 0) + 1;
+
+});
 
     feed.innerHTML = '';
 
@@ -131,7 +144,7 @@ if (!visitorId) {
         ? '❤️'
         : '🤍'
     }
-    ${confession.likes || 0}
+    ${likesMap[confession.id] || 0}
 </span>
 
     <span
