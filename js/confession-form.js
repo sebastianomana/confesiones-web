@@ -17,6 +17,9 @@ window.sendConfession = async function () {
         .value
         .trim();
 
+        const imageFile =
+    document.getElementById('image').files[0];
+
     if (message.length < 3) {
 
         document.getElementById('status').innerHTML =
@@ -25,10 +28,44 @@ window.sendConfession = async function () {
         return;
     }
 
+    let imageUrl = null;
+
+if (imageFile) {
+
+    const fileName =
+        `${Date.now()}-${imageFile.name}`;
+
+    const { error: uploadError } =
+        await supabase.storage
+            .from('confession-images')
+            .upload(
+                fileName,
+                imageFile
+            );
+
+    if (uploadError) {
+
+        console.error(uploadError);
+
+        document.getElementById('status').innerHTML =
+            '<div class="error">Error al subir imagen.</div>';
+
+        return;
+    }
+
+    const { data } =
+        supabase.storage
+            .from('confession-images')
+            .getPublicUrl(fileName);
+
+    imageUrl = data.publicUrl;
+}
+
     const { error } = await supabase
         .from('confessions')
        .insert({
     message: message,
+    image_url: imageUrl,
     profile_id: null,
     receiver_profile_id:
         window.receiverProfileId ?? null,
@@ -51,6 +88,7 @@ window.sendConfession = async function () {
 
     document.getElementById('message').value = '';
 
+    document.getElementById('image').value = '';
     document.getElementById('status').innerHTML =
         '<div class="success">✅ Confesión enviada correctamente.</div>';
 };
