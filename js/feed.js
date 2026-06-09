@@ -110,10 +110,24 @@ if (!visitorId) {
     </div>
 
     <div class="message">
-        ${confession.message}
-    </div>
+    ${confession.message}
+</div>
 
-    <hr>
+${
+    confession.image_url
+        ? `
+        <div class="confession-image-container">
+            <img
+                src="${confession.image_url}"
+                alt="Imagen de confesión"
+                class="confession-image"
+            />
+        </div>
+        `
+        : ''
+}
+
+<hr>
 
     <div class="actions">
 
@@ -288,7 +302,7 @@ async function loadComments(
             .order(
                 'created_at',
                 {
-                    ascending: true
+                    ascending: false
                 }
             );
 
