@@ -708,5 +708,10 @@ for (const confessionId of openedComments) {
     }
 )
 
-        .subscribe();
+.subscribe((status) => {
+    console.log(
+        'Realtime status:',
+        status
+    );
+});
 }
