@@ -514,6 +514,11 @@ function subscribeRealtime() {
 
                 await loadFeed();
 
+                await new Promise(
+    resolve =>
+        setTimeout(resolve, 200)
+);
+
 for (const confessionId of openedComments) {
 
     const container =
