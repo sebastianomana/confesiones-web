@@ -283,6 +283,8 @@ btn.innerHTML = `
                 container
             );
 
+            
+
         }
     );
 
@@ -462,7 +464,21 @@ if (!anonymousAlias) {
         container
     );
 
-await loadFeed();
+const commentBtn =
+    document.querySelector(
+        `.comment-btn[data-id="${confessionId}"]`
+    );
+
+if (commentBtn) {
+
+    const totalActual =
+        parseInt(
+            commentBtn.textContent.match(/\d+/)?.[0] || 0
+        );
+
+    commentBtn.innerHTML =
+        `💬 ${totalActual + 1}`;
+}
 
 };
 
