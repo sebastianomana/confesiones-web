@@ -91,11 +91,18 @@ webLikes?.forEach(like => {
 const { data: comments } =
     await supabase
         .from('web_comments')
-        .select(
-            'confession_id'
-        );
+        .select('*');
 
 const commentsMap = {};
+
+comments?.forEach(comment => {
+
+    commentsMap[comment.confession_id] =
+        (
+            commentsMap[comment.confession_id] || 0
+        ) + 1;
+
+});
 
 comments?.forEach(comment => {
 
@@ -232,10 +239,7 @@ comments?.forEach(comment => {
             return;
         }
 
-        localStorage.setItem(
-            localKey,
-            'true'
-        );
+    
 
     localStorage.setItem(
     localKey,
@@ -470,21 +474,7 @@ if (!anonymousAlias) {
         container
     );
 
-    const commentBtn =
-    document.querySelector(
-        `.comment-btn[data-id="${confessionId}"]`
-    );
-
-if (commentBtn) {
-
-    const totalActual =
-        parseInt(
-            commentBtn.textContent.match(/\d+/)?.[0] || 0
-        );
-
-    commentBtn.innerHTML =
-        `💬 ${totalActual + 1}`;
-}
+await loadFeed();
 
 };
 
