@@ -173,6 +173,25 @@ ${
 `;
     });
 
+    feed.innerHTML = `
+<div class="image-modal" id="image-modal">
+
+    <span
+        class="image-modal-close"
+        id="image-modal-close"
+    >
+        ✕
+    </span>
+
+    <img
+        id="image-modal-img"
+        src=""
+        alt=""
+    />
+
+</div>
+`;
+
     document
     .querySelectorAll('.like-btn')
     .forEach(btn => {
@@ -281,6 +300,70 @@ await loadComments(
     );
 
 });
+
+document
+.querySelectorAll('.confession-image')
+.forEach(img => {
+
+    img.addEventListener(
+        'click',
+        () => {
+
+            const modal =
+                document.getElementById(
+                    'image-modal'
+                );
+
+            const modalImg =
+                document.getElementById(
+                    'image-modal-img'
+                );
+
+            modalImg.src =
+                img.src;
+
+            modal.classList.add(
+                'active'
+            );
+
+        }
+    );
+
+});
+
+const modal =
+    document.getElementById(
+        'image-modal'
+    );
+
+const closeBtn =
+    document.getElementById(
+        'image-modal-close'
+    );
+
+if (modal && closeBtn) {
+
+    closeBtn.onclick = () => {
+
+        modal.classList.remove(
+            'active'
+        );
+
+    };
+
+    modal.onclick = e => {
+
+        if (e.target === modal) {
+
+            modal.classList.remove(
+                'active'
+            );
+
+        }
+
+    };
+
+}
 subscribeRealtime();
 }
 
