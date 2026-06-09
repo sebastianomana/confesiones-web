@@ -10,8 +10,7 @@ body {
 }
 
 .container {
-    width: 90%;
-    max-width: 500px;
+    width: min(95%, 900px);
     background: white;
     padding: 25px;
     border-radius: 20px;
@@ -49,6 +48,7 @@ button {
     color: white;
     font-size: 16px;
     cursor: pointer;
+    transition: .2s;
 }
 
 button:hover {
@@ -67,106 +67,61 @@ button:hover {
     margin-top: 10px;
 }
 
-/* Feed */
+/* =========================
+   FEED
+========================= */
 
-.confession-card{
-    background:#fff;
-    border-radius:18px;
-    padding:18px;
-    margin-top:16px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+.confession-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 18px;
+    margin-top: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    transition: .2s;
 }
 
-.confession-header{
-    display:flex;
-    gap:12px;
-    align-items:center;
+.confession-card:hover {
+    transform: translateY(-2px);
 }
 
-.avatar{
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    background:#e6dbff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:22px;
+.confession-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
 }
 
-.author{
-    font-weight:700;
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #e6dbff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
 }
 
-.time{
-    font-size:12px;
-    color:#777;
+.author {
+    font-weight: 700;
 }
 
-.message{
-    margin-top:16px;
-    font-size:18px;
-    line-height:1.5;
+.time {
+    font-size: 12px;
+    color: #777;
 }
 
-.actions{
-    display:flex;
-    gap:24px;
-    margin-top:12px;
-    color:#555;
+.message {
+    margin-top: 16px;
+    font-size: 18px;
+    line-height: 1.5;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
-.comments-box{
-    margin-top:15px;
-    padding-top:15px;
-    border-top:1px solid #ececec;
-}
-
-.comment-item{
-    background:#faf7ff;
-    border-radius:12px;
-    padding:12px;
-    margin-bottom:10px;
-}
-
-.comment-author{
-    color:#8b6fd1;
-    font-size:12px;
-    font-weight:700;
-    margin-bottom:5px;
-}
-
-.comment-text{
-    color:#333;
-    line-height:1.4;
-}
-
-.comment-input{
-    width:100%;
-    min-height:80px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    padding:12px;
-    margin-top:10px;
-}
-
-.comment-button{
-    width:100%;
-    margin-top:10px;
-    background:#b39ddb;
-    color:white;
-    border:none;
-    border-radius:12px;
-    padding:12px;
-    cursor:pointer;
-}
-
-.comment-empty{
-    text-align:center;
-    color:#999;
-    padding:10px;
-}
-
+/* =========================
+   IMÁGENES
+========================= */
 
 .confession-image-container {
     margin-top: 12px;
@@ -174,8 +129,166 @@ button:hover {
 
 .confession-image {
     width: 100%;
-    max-height: 500px;
-    object-fit: cover;
+    max-height: 450px;
+    object-fit: contain;
     border-radius: 12px;
     display: block;
+    background: #f7f7f7;
+}
+
+/* =========================
+   ACCIONES
+========================= */
+
+.actions {
+    display: flex;
+    gap: 24px;
+    margin-top: 12px;
+    color: #555;
+    flex-wrap: wrap;
+}
+
+.like-btn,
+.comment-btn {
+    user-select: none;
+}
+
+/* =========================
+   COMENTARIOS
+========================= */
+
+.comments-box {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ececec;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.comment-item {
+    background: #faf7ff;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.comment-author {
+    color: #8b6fd1;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.comment-text {
+    color: #333;
+    line-height: 1.4;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.comment-input {
+    width: 100%;
+    min-height: 80px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.comment-button {
+    width: 100%;
+    margin-top: 10px;
+    background: #b39ddb;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+}
+
+.comment-empty {
+    text-align: center;
+    color: #999;
+    padding: 10px;
+}
+
+/* =========================
+   SCROLL PERSONALIZADO
+========================= */
+
+.comments-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.comments-box::-webkit-scrollbar-thumb {
+    background: #c7b7eb;
+    border-radius: 10px;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 768px) {
+
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .message {
+        font-size: 17px;
+    }
+
+    .confession-image {
+        max-height: 450px;
+    }
+}
+
+/* =========================
+   MÓVIL
+========================= */
+
+@media (max-width: 480px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        width: 100%;
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .message {
+        font-size: 16px;
+    }
+
+    .actions {
+        gap: 16px;
+    }
+
+    .avatar {
+        width: 42px;
+        height: 42px;
+        font-size: 20px;
+    }
+
+    .confession-card {
+        padding: 14px;
+    }
+
+    .comment-input {
+        min-height: 70px;
+    }
+
+    .confession-image {
+        max-height: 350px;
+    }
 }
