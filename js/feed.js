@@ -94,12 +94,16 @@ if (!visitorId) {
 
         <div>
             <div class="author">
-                ${
-                  confession.is_anonymous
-                    ? 'Usuario Anónimo'
-                    : 'Usuario'
-                }
-            </div>
+    ${
+      confession.is_anonymous
+        ? 'Usuario Anónimo'
+        : (
+            confession.display_name ||
+            confession.username ||
+            'Usuario'
+          )
+    }
+</div>
 
             <div class="time">
                 ${new Date(
