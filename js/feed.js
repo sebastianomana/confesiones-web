@@ -173,7 +173,7 @@ ${
 `;
     });
 
-    feed.innerHTML = `
+   feed.innerHTML += `
 <div class="image-modal" id="image-modal">
 
     <span
