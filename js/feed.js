@@ -2,6 +2,7 @@ import { supabase } from './supabase.js';
 
 
 let realtimeStarted = false;
+const openedComments = new Set();
 
 export async function loadFeed() {
 
@@ -268,20 +269,27 @@ btn.innerHTML = `
                 container.style.display ===
                 'block'
             ) {
+container.style.display =
+    'none';
 
-                container.style.display =
-                    'none';
+openedComments.delete(
+    confessionId
+);
 
-                return;
+return;
             }
 
             container.style.display =
-                'block';
+    'block';
 
-            await loadComments(
-                confessionId,
-                container
-            );
+openedComments.add(
+    confessionId
+);
+
+await loadComments(
+    confessionId,
+    container
+);
 
             
 
@@ -498,13 +506,32 @@ function subscribeRealtime() {
                 schema: 'public',
                 table: 'web_comments'
             },
-            () => {
+            async () => {
 
                 console.log(
                     'Comentario detectado'
                 );
 
-                loadFeed();
+                await loadFeed();
+
+for (const confessionId of openedComments) {
+
+    const container =
+        document.getElementById(
+            `comments-${confessionId}`
+        );
+
+    if (container) {
+
+        container.style.display =
+            'block';
+
+        await loadComments(
+            confessionId,
+            container
+        );
+    }
+}
             }
         )
 
