@@ -625,11 +625,13 @@ function subscribeRealtime() {
 
     realtimeStarted = true;
 
-    supabase
-        .channel(
-    'public-feed-' +
-    Date.now()
-)
+    console.log(
+        'receiverProfileId realtime:',
+        window.receiverProfileId
+    );
+
+    const channel = supabase
+        .channel('moderator-settings-channel')
 
         .on(
             'postgres_changes',
@@ -647,28 +649,28 @@ function subscribeRealtime() {
                 await loadFeed();
 
                 await new Promise(
-    resolve =>
-        setTimeout(resolve, 200)
-);
+                    resolve =>
+                        setTimeout(resolve, 200)
+                );
 
-for (const confessionId of openedComments) {
+                for (const confessionId of openedComments) {
 
-    const container =
-        document.getElementById(
-            `comments-${confessionId}`
-        );
+                    const container =
+                        document.getElementById(
+                            `comments-${confessionId}`
+                        );
 
-    if (container) {
+                    if (container) {
 
-        container.style.display =
-            'block';
+                        container.style.display =
+                            'block';
 
-        await loadComments(
-            confessionId,
-            container
-        );
-    }
-}
+                        await loadComments(
+                            confessionId,
+                            container
+                        );
+                    }
+                }
             }
         )
 
@@ -690,31 +692,46 @@ for (const confessionId of openedComments) {
         )
 
         .on(
-    'postgres_changes',
-    {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'moderator_settings'
-    },
-    payload => {
+            'postgres_changes',
+            {
+                event: '*',
+                schema: 'public',
+                table: 'moderator_settings'
+            },
+            (payload) => {
 
-        console.log(
-            'Configuración de moderador actualizada'
-        );
+                console.log(
+                    'Configuración de moderador actualizada'
+                );
 
-        if (
-            payload.new.receiver_profile_id ===
-            window.receiverProfileId
-        ) {
-            loadFeed();
-        }
-    }
-)
+                console.log(payload);
 
-.subscribe((status) => {
-    console.log(
-        'Realtime status:',
-        status
-    );
-});
+                console.log(
+                    'receiverProfileId actual:',
+                    window.receiverProfileId
+                );
+
+                if (
+                    payload.new?.receiver_profile_id ===
+                    window.receiverProfileId
+                ) {
+
+                    console.log(
+                        'Recargando feed por cambio de configuración'
+                    );
+
+                    loadFeed();
+                }
+            }
+        )
+
+        .subscribe((status) => {
+
+            console.log(
+                'Realtime status:',
+                status
+            );
+        });
+
+    window.testChannel = channel;
 }
