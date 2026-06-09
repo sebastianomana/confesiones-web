@@ -104,18 +104,6 @@ comments?.forEach(comment => {
 
 });
 
-comments?.forEach(comment => {
-
-    commentsMap[
-        comment.confession_id
-    ] =
-        (
-            commentsMap[
-                comment.confession_id
-            ] || 0
-        ) + 1;
-
-});
 
     feed.innerHTML = '';
 
