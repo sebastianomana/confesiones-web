@@ -33,6 +33,8 @@ function timeAgo(dateString) {
 
 let realtimeStarted = false;
 const openedComments = new Set();
+let lastFeedVisibility = null;
+let settingsWatcherStarted = false;
 
 export async function loadFeed() {
 
@@ -422,9 +424,51 @@ if (modal && closeBtn) {
     };
 
 }
+if (!settingsWatcherStarted) {
+
+    settingsWatcherStarted = true;
+
+    watchModeratorSettings();
+
+    setInterval(
+        watchModeratorSettings,
+        3000
+    );
+}
+
 subscribeRealtime();
 }
 
+
+async function watchModeratorSettings() {
+
+    const { data } = await supabase
+        .from('moderator_settings')
+        .select('show_public_feed')
+        .eq(
+            'receiver_profile_id',
+            window.receiverProfileId
+        )
+        .single();
+
+    if (!data) return;
+
+    if (
+        lastFeedVisibility !== null &&
+        lastFeedVisibility !== data.show_public_feed
+    ) {
+
+        console.log(
+            'Cambio detectado:',
+            data.show_public_feed
+        );
+
+        loadFeed();
+    }
+
+    lastFeedVisibility =
+        data.show_public_feed;
+}
 
 
 async function loadComments(
@@ -688,40 +732,6 @@ function subscribeRealtime() {
                 );
 
                 loadFeed();
-            }
-        )
-
-        .on(
-            'postgres_changes',
-            {
-                event: '*',
-                schema: 'public',
-                table: 'moderator_settings'
-            },
-            (payload) => {
-
-                console.log(
-                    'Configuración de moderador actualizada'
-                );
-
-                console.log(payload);
-
-                console.log(
-                    'receiverProfileId actual:',
-                    window.receiverProfileId
-                );
-
-                if (
-                    payload.new?.receiver_profile_id ===
-                    window.receiverProfileId
-                ) {
-
-                    console.log(
-                        'Recargando feed por cambio de configuración'
-                    );
-
-                    loadFeed();
-                }
             }
         )
 
