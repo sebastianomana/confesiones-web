@@ -1,4 +1,34 @@
 import { supabase } from './supabase.js';
+function timeAgo(dateString) {
+
+    const date =
+        new Date(dateString);
+
+    const seconds =
+        Math.floor(
+            (Date.now() - date) / 1000
+        );
+
+    if (seconds < 60)
+        return 'Ahora';
+
+    const minutes =
+        Math.floor(seconds / 60);
+
+    if (minutes < 60)
+        return `hace ${minutes} min`;
+
+    const hours =
+        Math.floor(minutes / 60);
+
+    if (hours < 24)
+        return `hace ${hours} h`;
+
+    const days =
+        Math.floor(hours / 24);
+
+    return `hace ${days} días`;
+}
 
 
 let realtimeStarted = false;
@@ -106,10 +136,10 @@ if (!visitorId) {
 </div>
 
             <div class="time">
-                ${new Date(
-                  confession.created_at
-                ).toLocaleString()}
-            </div>
+    ${timeAgo(
+        confession.created_at
+    )}
+</div>
         </div>
     </div>
 
