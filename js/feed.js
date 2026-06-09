@@ -53,7 +53,10 @@ if (!visitorId) {
 }
 
     // Revisar configuración
-    const { data: setting } = await supabase
+    const {
+    data: setting,
+    error: settingError
+} = await supabase
     .from('moderator_settings')
     .select('show_public_feed')
     .eq(
@@ -61,6 +64,21 @@ if (!visitorId) {
         window.receiverProfileId
     )
     .single();
+
+console.log(
+    'receiverProfileId:',
+    window.receiverProfileId
+);
+
+console.log(
+    'setting:',
+    setting
+);
+
+console.log(
+    'settingError:',
+    settingError
+);
 
     if (
     !setting ||
