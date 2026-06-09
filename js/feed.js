@@ -279,7 +279,7 @@ async function loadComments(
 
     const { data, error } =
         await supabase
-            .from('web_comments')
+            .from('confession_comments_feed')
             .select('*')
             .eq(
                 'confession_id',
@@ -308,11 +308,11 @@ async function loadComments(
     <div class="comment-item">
 
         <div class="comment-author">
-            🎭 ${comment.alias || 'Anónimo'}
+            ${comment.author_name || 'Anónimo'}
         </div>
 
         <div class="comment-text">
-            ${comment.comment}
+            ${comment.message}
         </div>
 
     </div>
