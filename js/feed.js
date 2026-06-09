@@ -54,12 +54,18 @@ if (!visitorId) {
 
     // Revisar configuración
     const { data: setting } = await supabase
-        .from('app_settings')
-        .select('*')
-        .eq('key', 'show_public_feed')
-        .single();
+    .from('moderator_settings')
+    .select('show_public_feed')
+    .eq(
+        'receiver_profile_id',
+        window.receiverProfileId
+    )
+    .single();
 
-    if (setting?.value !== 'true') {
+    if (
+    !setting ||
+    setting.show_public_feed === false
+) {
 
         feed.innerHTML = `
             <div style="
@@ -661,6 +667,28 @@ for (const confessionId of openedComments) {
                 loadFeed();
             }
         )
+
+        .on(
+    'postgres_changes',
+    {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'moderator_settings'
+    },
+    payload => {
+
+        console.log(
+            'Configuración de moderador actualizada'
+        );
+
+        if (
+            payload.new.receiver_profile_id ===
+            window.receiverProfileId
+        ) {
+            loadFeed();
+        }
+    }
+)
 
         .subscribe();
 }

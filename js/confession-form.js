@@ -89,6 +89,7 @@ if (imageFile) {
     document.getElementById('message').value = '';
 
     document.getElementById('image').value = '';
+    
     document.getElementById('status').innerHTML =
         '<div class="success">✅ Confesión enviada correctamente.</div>';
 };
