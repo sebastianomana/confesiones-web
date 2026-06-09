@@ -442,16 +442,8 @@ async function loadComments(
             ${comment.author_name || 'Anónimo'}
         </div>
 
-        <div class="comment-author">
-    ${comment.author_name || 'Anónimo'}
-</div>
-
 <div class="comment-time">
     ${timeAgo(comment.created_at)}
-</div>
-
-<div class="comment-text">
-    ${comment.message}
 </div>
 
         <div class="comment-text">
