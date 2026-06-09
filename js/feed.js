@@ -70,40 +70,10 @@ if (!visitorId) {
     })
     .limit(50);
 
-    const { data: webLikes } = await supabase
-    .from('web_likes')
-    .select('confession_id');
-
-    if (error) {
-        console.error(error);
-        return;
-    }
-
-    const likesMap = {};
-
-webLikes?.forEach(like => {
-
-    likesMap[like.confession_id] =
-        (likesMap[like.confession_id] || 0) + 1;
-
-});
+    
 
 
-const { data: comments } =
-    await supabase
-        .from('web_comments')
-        .select('*');
 
-const commentsMap = {};
-
-comments?.forEach(comment => {
-
-    commentsMap[comment.confession_id] =
-        (
-            commentsMap[comment.confession_id] || 0
-        ) + 1;
-
-});
 
 
     feed.innerHTML = '';
@@ -166,7 +136,7 @@ comments?.forEach(comment => {
         ? '❤️'
         : '🤍'
     }
-    ${likesMap[confession.id] || 0}
+   ${confession.likes || 0}
 </span>
 
     <span
@@ -174,7 +144,7 @@ comments?.forEach(comment => {
     data-id="${confession.id}"
     style="cursor:pointer;"
 >
-    💬 ${commentsMap[confession.id] || 0}
+    💬 ${confession.comments_count || 0}
 </span>
 
 <div
