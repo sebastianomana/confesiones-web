@@ -626,7 +626,10 @@ function subscribeRealtime() {
     realtimeStarted = true;
 
     supabase
-        .channel('public-feed')
+        .channel(
+    'public-feed-' +
+    Date.now()
+)
 
         .on(
             'postgres_changes',
