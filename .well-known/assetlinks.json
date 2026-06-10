@@ -5,9 +5,9 @@
     ],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.example.confesiones",
+      "package_name": "com.confiesa.app",
       "sha256_cert_fingerprints": [
-        "55:64:2E:CF:C8:42:E5:B5:0B:B8:75:4E:48:4A:17:89:1B:D1:10:3C:CF:01:C0:A0:5B:38:CA:72:76:01:FD:4B"
+        "79:F0:F7:05:FD:D1:74:ED:74:4F:34:BE:0F:69:78:60:9B:BF:E9:62:D7:4D:C7:0B:EE:60:17:21:02:17:00:7D"
       ]
     }
   }
