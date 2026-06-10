@@ -30,6 +30,8 @@ window.sendConfession = async function () {
 
     let imageUrl = null;
 
+    let confessionStatus = 'approved';
+
 if (imageFile) {
 
     const fileName =
@@ -61,6 +63,24 @@ if (imageFile) {
     imageUrl = data.publicUrl;
 }
 
+const { data: settings } =
+    await supabase
+        .from('moderator_settings')
+        .select('safe_mode')
+        .eq(
+            'receiver_profile_id',
+            window.receiverProfileId
+        )
+        .maybeSingle();
+
+const safeMode =
+    settings?.safe_mode ?? false;
+
+confessionStatus =
+    safeMode
+        ? 'pending'
+        : 'approved';
+
     const { error } = await supabase
         .from('confessions')
        .insert({
@@ -71,7 +91,7 @@ if (imageFile) {
         window.receiverProfileId ?? null,
     is_anonymous: true,
     source: 'event',
-    status: 'pending',
+    status: confessionStatus,
 });
 
     if (error) {
@@ -89,7 +109,7 @@ if (imageFile) {
     document.getElementById('message').value = '';
 
     document.getElementById('image').value = '';
-    
+
     document.getElementById('status').innerHTML =
         '<div class="success">✅ Confesión enviada correctamente.</div>';
 };
