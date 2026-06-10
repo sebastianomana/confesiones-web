@@ -590,10 +590,29 @@ if (!anonymousAlias) {
     if (!comment) return;
 
     const bannedWords = [
-        'puta',
-        'marica',
-        'gonorrea'
-    ];
+
+    'puta',
+    'puta madre',
+    'puto',
+
+    'gonorrea',
+    'gonorrea',
+
+    'malparido',
+    'hijueputa',
+    'hpta',
+
+    'marica',
+    'maricon',
+
+    'perra',
+
+    'idiota',
+    'imbecil',
+
+    'negro de mierda',
+    'indio de mierda'
+];
 
     const invalid =
         bannedWords.some(word =>
