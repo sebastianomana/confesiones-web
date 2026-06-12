@@ -1,21 +1,63 @@
-const SUPABASE_URL = "TU_URL";
-const SUPABASE_KEY = "TU_ANON_KEY";
+// ========================================
+// SUPABASE
+// ========================================
+
+const SUPABASE_URL = "https://msudwsdzhbqmqhzcxkon.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zdWR3c2R6aGJxbXFoemN4a29uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2MTQ5NzcsImV4cCI6MjA5NjE5MDk3N30.wmGUz_ztJ5N_x0gkq1UycN-L2I9_MEBVNFeOQhKp5hA";
 
 const supabaseClient = supabase.createClient(
     SUPABASE_URL,
-    SUPABASE_KEY
+    SUPABASE_ANON_KEY
 );
+
+// ========================================
+// VARIABLES
+// ========================================
 
 let allConfessions = [];
 let users = [];
+let currentUser = null;
 
-const usersList = document.getElementById("usersList");
-const confessionsContainer = document.getElementById("confessionsContainer");
+// ========================================
+// ELEMENTOS
+// ========================================
 
-const displayName = document.getElementById("displayName");
-const username = document.getElementById("username");
-const userAvatar = document.getElementById("userAvatar");
-const feedStatus = document.getElementById("feedStatus");
+const usersList =
+    document.getElementById("usersList");
+
+const confessionsContainer =
+    document.getElementById(
+        "confessionsContainer"
+    );
+
+const searchInput =
+    document.getElementById(
+        "searchUser"
+    );
+
+const displayName =
+    document.getElementById(
+        "displayName"
+    );
+
+const username =
+    document.getElementById(
+        "username"
+    );
+
+const userAvatar =
+    document.getElementById(
+        "userAvatar"
+    );
+
+const feedStatus =
+    document.getElementById(
+        "feedStatus"
+    );
+
+// ========================================
+// INIT
+// ========================================
 
 init();
 
@@ -23,17 +65,34 @@ async function init() {
 
     await loadData();
 
+    searchInput.addEventListener(
+        "input",
+        renderUsers
+    );
 }
+
+// ========================================
+// CARGAR DATOS
+// ========================================
 
 async function loadData() {
 
-    const { data, error } = await supabaseClient
-        .from("superadmin_confessions")
-        .select("*")
-        .order("created_at", { ascending: false });
+    const { data, error } =
+        await supabaseClient
+            .from(
+                "superadmin_confessions"
+            )
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
 
     if (error) {
         console.error(error);
+        alert(error.message);
         return;
     }
 
@@ -50,58 +109,147 @@ async function loadData() {
 
     renderUsers();
 
+    if (users.length > 0) {
+        showUser(
+            users[0]
+                .receiver_profile_id
+        );
+    }
 }
+
+// ========================================
+// USUARIOS
+// ========================================
 
 function renderUsers() {
 
+    const query =
+        searchInput.value
+        .toLowerCase();
+
     usersList.innerHTML = "";
 
-    users.forEach(user => {
+    users
+        .filter(user => {
 
-        const div = document.createElement("div");
+            const username =
+                (
+                    user.username || ""
+                ).toLowerCase();
 
-        div.className = "user-item";
+            const displayName =
+                (
+                    user.display_name ||
+                    ""
+                ).toLowerCase();
 
-        div.innerHTML = `
-            <img src="${user.avatar_url || 'https://placehold.co/100'}">
+            return (
+                username.includes(query)
+                ||
+                displayName.includes(
+                    query
+                )
+            );
 
-            <div class="user-info">
-                <h4>${user.display_name}</h4>
-                <p>@${user.username}</p>
-            </div>
-        `;
+        })
+        .forEach(user => {
 
-        div.addEventListener("click", () => {
+            const total =
+                allConfessions.filter(
+                    confession =>
+                        confession.receiver_profile_id ===
+                        user.receiver_profile_id
+                ).length;
 
-            document
-                .querySelectorAll(".user-item")
-                .forEach(x => x.classList.remove("active"));
+            const div =
+                document.createElement(
+                    "div"
+                );
 
-            div.classList.add("active");
+            div.className =
+                "user-item";
 
-            showUser(user.receiver_profile_id);
+            div.innerHTML = `
+                <img
+                    src="${
+                        user.avatar_url ||
+                        'https://placehold.co/100'
+                    }"
+                >
+
+                <div class="user-info">
+
+                    <h4>
+                        ${
+                            user.display_name ||
+                            'Usuario'
+                        }
+                    </h4>
+
+                    <p>
+                        @${user.username}
+                    </p>
+
+                    <small>
+                        ${total} confesiones
+                    </small>
+
+                </div>
+            `;
+
+            div.onclick = () => {
+
+                document
+                    .querySelectorAll(
+                        ".user-item"
+                    )
+                    .forEach(item =>
+                        item.classList.remove(
+                            "active"
+                        )
+                    );
+
+                div.classList.add(
+                    "active"
+                );
+
+                showUser(
+                    user.receiver_profile_id
+                );
+            };
+
+            usersList.appendChild(div);
 
         });
-
-        usersList.appendChild(div);
-
-    });
-
 }
+
+// ========================================
+// MOSTRAR USUARIO
+// ========================================
 
 function showUser(profileId) {
 
-    const user = users.find(
-        u => u.receiver_profile_id === profileId
-    );
+    currentUser = profileId;
+
+    const user =
+        users.find(
+            item =>
+                item.receiver_profile_id ===
+                profileId
+        );
 
     if (!user) return;
 
     displayName.textContent =
-        user.display_name;
+        user.display_name ||
+        "Usuario";
 
     username.textContent =
-        "@" + user.username;
+        "@" +
+        (
+            user.username ||
+            "usuario"
+        );
 
     userAvatar.src =
         user.avatar_url ||
@@ -109,99 +257,262 @@ function showUser(profileId) {
 
     feedStatus.textContent =
         user.show_public_feed
-            ? "Feed Público"
-            : "Feed Oculto";
+            ? "🟢 Feed Público"
+            : "🔒 Feed Oculto";
 
-    const userConfessions =
-        allConfessions.filter(
-            c => c.receiver_profile_id === profileId
-        );
-
-    renderConfessions(userConfessions);
-
+    renderConfessions(profileId);
 }
 
-function renderConfessions(confessions) {
+// ========================================
+// CONFESIONES
+// ========================================
 
-    confessionsContainer.innerHTML = "";
+function renderConfessions(
+    profileId
+) {
 
-    confessions.forEach(confession => {
+    const confessions =
+        allConfessions.filter(
+            confession =>
+                confession.receiver_profile_id ===
+                profileId
+        );
 
-        let statusClass = "pending";
+    if (
+        confessions.length === 0
+    ) {
 
-        if (confession.status === "approved")
-            statusClass = "approved";
-
-        if (confession.status === "rejected")
-            statusClass = "rejected";
-
-        const card = document.createElement("div");
-
-        card.className = "card";
-
-        card.innerHTML = `
-            <div class="card-top">
-
-                <span class="status ${statusClass}">
-                    ${confession.status}
-                </span>
-
-                <small>
-                    ${formatDate(confession.created_at)}
-                </small>
-
-            </div>
-
-            ${
-                confession.image_url
-                ?
-                `<img
-                    src="${confession.image_url}"
-                    class="card-image"
-                >`
-                :
-                ""
-            }
-
-            <p class="message">
-                ${confession.message}
-            </p>
-
-            <div class="card-actions">
-
-                <button
-                    class="approve-btn"
-                    onclick="approveConfession('${confession.id}')"
-                >
-                    Aprobar
-                </button>
-
-                <button
-                    class="reject-btn"
-                    onclick="rejectConfession('${confession.id}')"
-                >
-                    Rechazar
-                </button>
-
-                <button
-                    class="delete-btn"
-                    onclick="deleteConfession('${confession.id}')"
-                >
-                    Eliminar
-                </button>
-
+        confessionsContainer.innerHTML = `
+            <div class="empty-state">
+                No existen confesiones
             </div>
         `;
 
-        confessionsContainer.appendChild(card);
+        return;
+    }
 
-    });
+    confessionsContainer.innerHTML = "";
 
+    confessions.forEach(
+        confession => {
+
+            let statusClass =
+                "pending";
+
+            if (
+                confession.status ===
+                "approved"
+            ) {
+                statusClass =
+                    "approved";
+            }
+
+            if (
+                confession.status ===
+                "rejected"
+            ) {
+                statusClass =
+                    "rejected";
+            }
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "card";
+
+            card.innerHTML = `
+                <div class="card-top">
+
+                    <span class="status ${statusClass}">
+                        ${confession.status}
+                    </span>
+
+                    <small>
+                        ${formatDate(
+                            confession.created_at
+                        )}
+                    </small>
+
+                </div>
+
+                ${
+                    confession.image_url
+                    ?
+                    `
+                    <img
+                        src="${confession.image_url}"
+                        class="card-image"
+                    >
+                    `
+                    :
+                    ""
+                }
+
+                <p class="message">
+                    ${
+                        confession.message
+                    }
+                </p>
+
+                <div class="card-actions">
+
+                    ${
+                        confession.status !==
+                        "approved"
+                        ?
+                        `
+                        <button
+                            class="approve-btn"
+                            onclick="approveConfession('${confession.id}')"
+                        >
+                            Aprobar
+                        </button>
+                        `
+                        :
+                        ""
+                    }
+
+                    ${
+                        confession.status !==
+                        "rejected"
+                        ?
+                        `
+                        <button
+                            class="reject-btn"
+                            onclick="rejectConfession('${confession.id}')"
+                        >
+                            Rechazar
+                        </button>
+                        `
+                        :
+                        ""
+                    }
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteConfession('${confession.id}')"
+                    >
+                        Eliminar
+                    </button>
+
+                </div>
+            `;
+
+            confessionsContainer.appendChild(
+                card
+            );
+        }
+    );
 }
 
-function formatDate(date) {
+// ========================================
+// APROBAR
+// ========================================
 
-    return new Date(date)
-        .toLocaleString("es-CO");
+async function approveConfession(
+    id
+) {
 
+    const { error } =
+        await supabaseClient
+            .from("confessions")
+            .update({
+                status:
+                    "approved"
+            })
+            .eq("id", id);
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    await loadData();
+}
+
+// ========================================
+// RECHAZAR
+// ========================================
+
+async function rejectConfession(
+    id
+) {
+
+    const confirmReject =
+        confirm(
+            "¿Deseas rechazar esta confesión?"
+        );
+
+    if (!confirmReject)
+        return;
+
+    const { error } =
+        await supabaseClient
+            .from("confessions")
+            .update({
+                status:
+                    "rejected"
+            })
+            .eq("id", id);
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    await loadData();
+}
+
+// ========================================
+// ELIMINAR
+// ========================================
+
+async function deleteConfession(
+    id
+) {
+
+    const confirmDelete =
+        confirm(
+            "¿Eliminar confesión?"
+        );
+
+    if (!confirmDelete)
+        return;
+
+    const { error } =
+        await supabaseClient
+            .from("confessions")
+            .delete()
+            .eq("id", id);
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    await loadData();
+}
+
+// ========================================
+// FECHA
+// ========================================
+
+function formatDate(
+    dateString
+) {
+
+    return new Date(
+        dateString
+    ).toLocaleString(
+        "es-CO",
+        {
+            dateStyle:
+                "medium",
+            timeStyle:
+                "short"
+        }
+    );
 }
