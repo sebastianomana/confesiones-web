@@ -1,221 +1,88 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confiesa Super Admin</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="./css/super.css">
+<title>Confiesa SuperAdmin</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+<link rel="stylesheet" href="./css/super.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <div class="layout">
+<div class="container">
 
-        <!-- Sidebar -->
+    <!-- SIDEBAR USUARIOS -->
 
-        <aside class="sidebar">
+    <aside class="users-panel">
 
-            <div class="logo">
-                💜
-                <span>Confiesa</span>
+        <div class="logo">
+            💜 Confiesa
+        </div>
+
+        <div class="search-box">
+            <input
+                type="text"
+                id="searchUser"
+                placeholder="Buscar usuario..."
+            >
+        </div>
+
+        <div id="usersList" class="users-list">
+
+            <!-- JS -->
+
+        </div>
+
+    </aside>
+
+    <!-- PANEL DERECHO -->
+
+    <main class="content">
+
+        <div id="userHeader" class="user-header">
+
+            <img
+                id="userAvatar"
+                src="https://placehold.co/100x100"
+                alt=""
+            >
+
+            <div>
+
+                <h2 id="displayName">
+                    Selecciona un usuario
+                </h2>
+
+                <p id="username">
+                    @usuario
+                </p>
+
+                <span id="feedStatus" class="feed-status">
+                    Feed público
+                </span>
+
             </div>
 
-            <nav>
+        </div>
 
-                <a href="#" class="active">
-                    📨 Confesiones
-                </a>
+        <div id="confessionsContainer" class="confessions-container">
 
-                <a href="#">
-                    👥 Usuarios
-                </a>
-
-                <a href="#">
-                    📊 Estadísticas
-                </a>
-
-            </nav>
-
-            <div class="logout">
-                <button>
-                    Cerrar sesión
-                </button>
+            <div class="empty-state">
+                Selecciona un usuario para ver sus confesiones
             </div>
 
-        </aside>
+        </div>
 
-        <!-- Main -->
+    </main>
 
-        <main class="main-content">
+</div>
 
-            <!-- Header -->
-
-            <header class="topbar">
-
-                <div>
-                    <h1>Confesiones</h1>
-                    <p>Moderación general</p>
-                </div>
-
-                <input
-                    type="text"
-                    placeholder="Buscar confesión..."
-                    class="search"
-                >
-
-            </header>
-
-            <!-- Stats -->
-
-            <section class="stats">
-
-                <div class="stat-card">
-                    <h2>245</h2>
-                    <p>Usuarios</p>
-                </div>
-
-                <div class="stat-card">
-                    <h2>34</h2>
-                    <p>Pendientes</p>
-                </div>
-
-                <div class="stat-card">
-                    <h2>1.204</h2>
-                    <p>Aprobadas</p>
-                </div>
-
-                <div class="stat-card">
-                    <h2>87</h2>
-                    <p>Rechazadas</p>
-                </div>
-
-            </section>
-
-            <!-- Filters -->
-
-            <section class="filters">
-
-                <button class="filter active">
-                    Todas
-                </button>
-
-                <button class="filter">
-                    Pendientes
-                </button>
-
-                <button class="filter">
-                    Aprobadas
-                </button>
-
-                <button class="filter">
-                    Rechazadas
-                </button>
-
-            </section>
-
-            <!-- Feed -->
-
-            <section class="confessions">
-
-                <!-- Card -->
-
-                <div class="card">
-
-                    <div class="card-header">
-
-                        <div>
-                            <h3>Juan Pérez</h3>
-                            <span>juan@email.com</span>
-                        </div>
-
-                        <span class="status pending">
-                            Pendiente
-                        </span>
-
-                    </div>
-
-                    <p class="message">
-                        Me gustas desde hace meses y nunca me he atrevido a decirlo.
-                    </p>
-
-                    <div class="card-footer">
-
-                        <span>
-                            10 Jun 2026
-                        </span>
-
-                        <div class="actions">
-
-                            <button class="approve">
-                                Aprobar
-                            </button>
-
-                            <button class="reject">
-                                Rechazar
-                            </button>
-
-                            <button class="delete">
-                                Eliminar
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- Card -->
-
-                <div class="card">
-
-                    <div class="card-header">
-
-                        <div>
-                            <h3>María López</h3>
-                            <span>maria@email.com</span>
-                        </div>
-
-                        <span class="status approved">
-                            Aprobada
-                        </span>
-
-                    </div>
-
-                    <p class="message">
-                        Gracias por siempre estar cuando más te necesité.
-                    </p>
-
-                    <div class="card-footer">
-
-                        <span>
-                            09 Jun 2026
-                        </span>
-
-                        <div class="actions">
-
-                            <button class="delete">
-                                Eliminar
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-        </main>
-
-    </div>
-
-    <script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./js/super.js"></script>
 
 </body>
-
 </html>
