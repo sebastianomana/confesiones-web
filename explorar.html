@@ -1,74 +1,60 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Explorar | Confiesa</title>
-
-<link rel="stylesheet" href="./css/explorar.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confiesa Admin</title>
+    <link rel="stylesheet" href="./css/explorar.css">
 </head>
 <body>
 
-<header class="hero">
+    <div class="background"></div>
 
+    <div class="login-container">
 
-<h1>💜 Explorar Confesiones</h1>
+        <div class="logo">
+            💜
+        </div>
 
-<p>
-    Descubre confesiones públicas compartidas por la comunidad.
-</p>
+        <h1>Confiesa Admin</h1>
 
-<a href="/" class="hero-btn">
-    ✍️ Quiero confesar
-</a>
+        <p class="subtitle">
+            Acceso exclusivo para administradores
+        </p>
 
+        <form id="loginForm">
 
-</header>
+            <div class="input-group">
+                <label for="email">Correo electrónico</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="admin@confiesa.app"
+                    required
+                >
+            </div>
 
-<section class="stats">
+            <div class="input-group">
+                <label for="password">Contraseña</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="••••••••"
+                    required
+                >
+            </div>
 
+            <button type="submit">
+                Iniciar sesión
+            </button>
 
-<div class="stat-card">
-    <span id="totalConfessions">0</span>
-    <small>Confesiones</small>
-</div>
+            <p id="error" class="error"></p>
 
-<div class="stat-card">
-    <span id="totalLikes">0</span>
-    <small>Likes</small>
-</div>
+        </form>
 
-<div class="stat-card">
-    <span id="totalComments">0</span>
-    <small>Comentarios</small>
-</div>
+    </div>
 
-
-</section>
-
-<section class="section">
-
-
-<h2>🔥 Más populares</h2>
-
-<div id="popularFeed"></div>
-
-
-</section>
-
-<section class="section">
-
-
-<h2>🕒 Más recientes</h2>
-
-<div id="recentFeed"></div>
-
-
-</section>
-
-<script type="module" src="./js/explorar.js"></script>
+    <script type="module" src="./js/explorar.js"></script>
 
 </body>
 </html>

@@ -126,6 +126,44 @@ console.log(
     })
     .limit(50);
 
+    const twelveHoursAgo =
+    new Date(
+        Date.now() -
+        12 * 60 * 60 * 1000
+    );
+
+const visibleConfessions =
+    confessions.filter(
+        confession =>
+            new Date(
+                confession.created_at
+            ) <= twelveHoursAgo
+    );
+
+
+const visibleConfessions =
+    confessions.filter(
+        confession =>
+            new Date(
+                confession.created_at
+            ) <= twelveHoursAgo
+    );
+
+if (!visibleConfessions.length) {
+
+    feed.innerHTML = `
+        <div style="
+            text-align:center;
+            padding:20px;
+            color:#666;
+        ">
+            Aún no hay confesiones disponibles.
+        </div>
+    `;
+
+    return;
+}    
+
     
 
 
@@ -134,7 +172,7 @@ console.log(
 
     feed.innerHTML = '';
 
-    confessions.forEach(confession => {
+    visibleConfessions.forEach(confession => {
 
         feed.innerHTML += `
 <div class="confession-card">

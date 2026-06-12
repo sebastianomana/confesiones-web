@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confiesa Super Admin</title>
+
+    <link rel="stylesheet" href="./css/super.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <!-- Sidebar -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                💜
+                <span>Confiesa</span>
+            </div>
+
+            <nav>
+
+                <a href="#" class="active">
+                    📨 Confesiones
+                </a>
+
+                <a href="#">
+                    👥 Usuarios
+                </a>
+
+                <a href="#">
+                    📊 Estadísticas
+                </a>
+
+            </nav>
+
+            <div class="logout">
+                <button>
+                    Cerrar sesión
+                </button>
+            </div>
+
+        </aside>
+
+        <!-- Main -->
+
+        <main class="main-content">
+
+            <!-- Header -->
+
+            <header class="topbar">
+
+                <div>
+                    <h1>Confesiones</h1>
+                    <p>Moderación general</p>
+                </div>
+
+                <input
+                    type="text"
+                    placeholder="Buscar confesión..."
+                    class="search"
+                >
+
+            </header>
+
+            <!-- Stats -->
+
+            <section class="stats">
+
+                <div class="stat-card">
+                    <h2>245</h2>
+                    <p>Usuarios</p>
+                </div>
+
+                <div class="stat-card">
+                    <h2>34</h2>
+                    <p>Pendientes</p>
+                </div>
+
+                <div class="stat-card">
+                    <h2>1.204</h2>
+                    <p>Aprobadas</p>
+                </div>
+
+                <div class="stat-card">
+                    <h2>87</h2>
+                    <p>Rechazadas</p>
+                </div>
+
+            </section>
+
+            <!-- Filters -->
+
+            <section class="filters">
+
+                <button class="filter active">
+                    Todas
+                </button>
+
+                <button class="filter">
+                    Pendientes
+                </button>
+
+                <button class="filter">
+                    Aprobadas
+                </button>
+
+                <button class="filter">
+                    Rechazadas
+                </button>
+
+            </section>
+
+            <!-- Feed -->
+
+            <section class="confessions">
+
+                <!-- Card -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h3>Juan Pérez</h3>
+                            <span>juan@email.com</span>
+                        </div>
+
+                        <span class="status pending">
+                            Pendiente
+                        </span>
+
+                    </div>
+
+                    <p class="message">
+                        Me gustas desde hace meses y nunca me he atrevido a decirlo.
+                    </p>
+
+                    <div class="card-footer">
+
+                        <span>
+                            10 Jun 2026
+                        </span>
+
+                        <div class="actions">
+
+                            <button class="approve">
+                                Aprobar
+                            </button>
+
+                            <button class="reject">
+                                Rechazar
+                            </button>
+
+                            <button class="delete">
+                                Eliminar
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Card -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h3>María López</h3>
+                            <span>maria@email.com</span>
+                        </div>
+
+                        <span class="status approved">
+                            Aprobada
+                        </span>
+
+                    </div>
+
+                    <p class="message">
+                        Gracias por siempre estar cuando más te necesité.
+                    </p>
+
+                    <div class="card-footer">
+
+                        <span>
+                            09 Jun 2026
+                        </span>
+
+                        <div class="actions">
+
+                            <button class="delete">
+                                Eliminar
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
