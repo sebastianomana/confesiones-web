@@ -141,14 +141,6 @@ const visibleConfessions =
     );
 
 
-const visibleConfessions =
-    confessions.filter(
-        confession =>
-            new Date(
-                confession.created_at
-            ) <= twelveHoursAgo
-    );
-
 if (!visibleConfessions.length) {
 
     feed.innerHTML = `
