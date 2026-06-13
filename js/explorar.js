@@ -40,14 +40,19 @@ form.addEventListener("submit", async (e) => {
         }
 
         sessionStorage.setItem(
-            "superadmin",
-            "true"
-        );
+    "superadmin",
+    "true"
+);
 
-        sessionStorage.setItem(
-            "superadmin_email",
-            email
-        );
+sessionStorage.setItem(
+    "superadmin_email",
+    email
+);
+
+sessionStorage.setItem(
+    "superadmin_password",
+    password
+);
 
         window.location.href =
             "superadmin.html";

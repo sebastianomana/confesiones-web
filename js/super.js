@@ -106,6 +106,42 @@ init();
 
 async function init() {
 
+    const adminEmail =
+    sessionStorage.getItem(
+        "superadmin_email"
+    );
+
+const adminPassword =
+    sessionStorage.getItem(
+        "superadmin_password"
+    );
+
+    if(
+        !adminEmail ||
+        !adminPassword
+    ){
+        window.location.href =
+            "admin-login.html";
+        return;
+    }
+
+    const { data: admin } =
+        await supabaseClient
+            .from("super_admins")
+            .select("*")
+            .eq("email", adminEmail)
+            .eq("password", adminPassword)
+            .single();
+
+    if(!admin){
+        sessionStorage.clear();
+
+        window.location.href =
+            "admin-login.html";
+
+        return;
+    }
+
     await loadData();
 
     searchInput.addEventListener(
@@ -746,4 +782,22 @@ function formatDate(
                 "short"
         }
     );
+}
+
+const logoutBtn =
+    document.getElementById(
+        "logoutBtn"
+    );
+
+if(logoutBtn){
+
+    logoutBtn.onclick = () => {
+
+        sessionStorage.clear();
+
+        window.location.href =
+            "explorar.html";
+
+    };
+
 }
