@@ -43,6 +43,35 @@
 
     <main class="content">
 
+        <div class="dashboard-stats">
+
+    <div class="stat-card">
+        <span id="totalUsers">0</span>
+        <p>Usuarios</p>
+    </div>
+
+    <div class="stat-card">
+        <span id="totalConfessions">0</span>
+        <p>Confesiones</p>
+    </div>
+
+    <div class="stat-card">
+        <span id="totalPending">0</span>
+        <p>Pendientes</p>
+    </div>
+
+    <div class="stat-card">
+        <span id="totalApproved">0</span>
+        <p>Aprobadas</p>
+    </div>
+
+    <div class="stat-card">
+        <span id="totalRejected">0</span>
+        <p>Rechazadas</p>
+    </div>
+
+</div>
+
         <div id="userHeader" class="user-header">
 
             <img
@@ -71,22 +100,31 @@
 
         <div class="filters">
 
-    <button class="filter-btn active" onclick="filterConfessions('all')">
-        Todas
+    <button class="filter-btn active" onclick="filterConfessions('all', this)">
+        Todas (<span id="countAll">0</span>)
     </button>
 
-    <button class="filter-btn" onclick="filterConfessions('approved')">
-        Aprobadas
+    <button class="filter-btn" onclick="filterConfessions('approved', this)">
+        Aprobadas (<span id="countApproved">0</span>)
     </button>
 
-    <button class="filter-btn" onclick="filterConfessions('pending')">
-        Pendientes
+    <button class="filter-btn" onclick="filterConfessions('pending', this)">
+        Pendientes (<span id="countPending">0</span>)
     </button>
 
-    <button class="filter-btn" onclick="filterConfessions('rejected')">
-        Rechazadas
+    <button class="filter-btn" onclick="filterConfessions('rejected', this)">
+        Rechazadas (<span id="countRejected">0</span>)
     </button>
 
+</div>
+
+<div class="confession-search">
+    <input
+        type="text"
+        id="confessionSearch"
+        placeholder="Buscar confesiones..."
+        oninput="searchConfessions()"
+    >
 </div>
 
         <div id="confessionsContainer" class="confessions-container">

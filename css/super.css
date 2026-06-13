@@ -74,6 +74,7 @@ padding:0 15px 15px;
 .user-item{
 display:flex;
 align-items:center;
+transition:.25s;
 gap:12px;
 
 padding:12px;
@@ -101,6 +102,10 @@ border-radius:50%;
 object-fit:cover;
 }
 
+.user-item.active .user-stats small{
+    background:rgba(255,255,255,.18);
+}
+
 .user-info h4{
 font-size:15px;
 }
@@ -108,6 +113,21 @@ font-size:15px;
 .user-info p{
 font-size:13px;
 color:#bbb;
+}
+
+.user-stats{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:8px;
+}
+
+.user-stats small{
+    background:rgba(255,255,255,.08);
+    padding:4px 8px;
+    border-radius:8px;
+    font-size:11px;
+    color:white;
 }
 
 /* CONTENT */
@@ -389,4 +409,50 @@ background:#2a2d3d;
 
 .filter-btn.active{
 background:#8b5cf6;
+}
+
+.confession-search{
+    margin-bottom:20px;
+}
+
+.confession-search input{
+    width:100%;
+    padding:14px 16px;
+    border:none;
+    border-radius:14px;
+    background:rgba(255,255,255,.08);
+    color:white;
+    font-size:15px;
+    outline:none;
+}
+
+.confession-search input::placeholder{
+    color:rgba(255,255,255,.5);
+}
+
+.dashboard-stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:15px;
+margin-bottom:25px;
+}
+
+.stat-card{
+background:rgba(255,255,255,.05);
+padding:20px;
+border-radius:20px;
+text-align:center;
+backdrop-filter:blur(10px);
+}
+
+.stat-card span{
+display:block;
+font-size:30px;
+font-weight:700;
+margin-bottom:8px;
+}
+
+.stat-card p{
+color:#bbb;
+font-size:14px;
 }

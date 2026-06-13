@@ -19,6 +19,8 @@ let users = [];
 let currentUser = null;
 let currentFilter = "all";
 
+let searchText = "";
+
 // ========================================
 // ELEMENTOS
 // ========================================
@@ -55,6 +57,31 @@ const feedStatus =
     document.getElementById(
         "feedStatus"
     );
+
+    const totalUsers =
+document.getElementById(
+"totalUsers"
+);
+
+const totalConfessions =
+document.getElementById(
+"totalConfessions"
+);
+
+const totalPending =
+document.getElementById(
+"totalPending"
+);
+
+const totalApproved =
+document.getElementById(
+"totalApproved"
+);
+
+const totalRejected =
+document.getElementById(
+"totalRejected"
+);
 
 const imageModal =
 document.getElementById(
@@ -114,14 +141,16 @@ async function loadData() {
 
     allConfessions = data;
 
-    users = [
-        ...new Map(
-            data.map(user => [
-                user.receiver_profile_id,
-                user
-            ])
-        ).values()
-    ];
+users = [
+    ...new Map(
+        data.map(user => [
+            user.receiver_profile_id,
+            user
+        ])
+    ).values()
+];
+
+updateDashboard();
 
     renderUsers();
 
@@ -136,6 +165,30 @@ async function loadData() {
 // ========================================
 // USUARIOS
 // ========================================
+
+function updateDashboard(){
+
+    totalUsers.textContent =
+        users.length;
+
+    totalConfessions.textContent =
+        allConfessions.length;
+
+    totalPending.textContent =
+        allConfessions.filter(
+            c => c.status === "pending"
+        ).length;
+
+    totalApproved.textContent =
+        allConfessions.filter(
+            c => c.status === "approved"
+        ).length;
+
+    totalRejected.textContent =
+        allConfessions.filter(
+            c => c.status === "rejected"
+        ).length;
+}
 
 function renderUsers() {
 
@@ -177,6 +230,22 @@ function renderUsers() {
                         user.receiver_profile_id
                 ).length;
 
+                const approved =
+    allConfessions.filter(
+        confession =>
+            confession.receiver_profile_id ===
+            user.receiver_profile_id &&
+            confession.status === "approved"
+    ).length;
+
+const pending =
+    allConfessions.filter(
+        confession =>
+            confession.receiver_profile_id ===
+            user.receiver_profile_id &&
+            confession.status === "pending"
+    ).length;
+
             const div =
                 document.createElement(
                     "div"
@@ -206,9 +275,21 @@ function renderUsers() {
                         @${user.username}
                     </p>
 
-                    <small>
-                        ${total} confesiones
-                    </small>
+                    <div class="user-stats">
+
+    <small>
+        📝 ${total} confesiones
+    </small>
+
+    <small>
+        ✅ ${approved}
+    </small>
+
+    <small>
+        ⏳ ${pending}
+    </small>
+
+</div>
 
                 </div>
             `;
@@ -245,6 +326,7 @@ function renderUsers() {
 
 function showUser(profileId) {
 
+    updateCounters(profileId);
     currentUser = profileId;
 
     const user =
@@ -289,8 +371,8 @@ function renderConfessions(
 
     let confessions =
     allConfessions.filter(
-        confession =>
-            confession.receiver_profile_id ===
+        c =>
+            c.receiver_profile_id ===
             profileId
     );
 
@@ -298,11 +380,27 @@ if(currentFilter !== "all"){
 
     confessions =
         confessions.filter(
-            confession =>
-                confession.status ===
+            c =>
+                c.status ===
                 currentFilter
         );
 }
+
+if(searchText){
+
+    confessions =
+        confessions.filter(
+            c =>
+                (
+                    c.message || ""
+                )
+                .toLowerCase()
+                .includes(
+                    searchText
+                )
+        );
+}
+
 
     if (
         confessions.length === 0
@@ -556,21 +654,81 @@ imageModal.onclick = (e) => {
 
 };
 
-function filterConfessions(status){
+function filterConfessions(
+    status,
+    button
+){
 
     currentFilter = status;
 
     document
-    .querySelectorAll(".filter-btn")
+    .querySelectorAll(
+        ".filter-btn"
+    )
     .forEach(btn =>
-        btn.classList.remove("active")
+        btn.classList.remove(
+            "active"
+        )
     );
 
-    event.target.classList.add(
+    button.classList.add(
         "active"
     );
 
-    renderConfessions(currentUser);
+    renderConfessions(
+        currentUser
+    );
+}
+
+function searchConfessions(){
+
+    searchText =
+        document
+        .getElementById(
+            "confessionSearch"
+        )
+        .value
+        .toLowerCase();
+
+    renderConfessions(
+        currentUser
+    );
+}
+
+function updateCounters(profileId){
+
+    const userConfessions =
+        allConfessions.filter(
+            c =>
+                c.receiver_profile_id ===
+                profileId
+        );
+
+    document.getElementById(
+        "countAll"
+    ).textContent =
+        userConfessions.length;
+
+    document.getElementById(
+        "countApproved"
+    ).textContent =
+        userConfessions.filter(
+            c => c.status === "approved"
+        ).length;
+
+    document.getElementById(
+        "countPending"
+    ).textContent =
+        userConfessions.filter(
+            c => c.status === "pending"
+        ).length;
+
+    document.getElementById(
+        "countRejected"
+    ).textContent =
+        userConfessions.filter(
+            c => c.status === "rejected"
+        ).length;
 }
 
 function formatDate(
