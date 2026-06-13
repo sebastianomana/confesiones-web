@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Correo verificado | Confiesa</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f6f0ff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.card{
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    text-align:center;
+    max-width:400px;
+    width:90%;
+}
+
+.icon{
+    font-size:70px;
+}
+
+h1{
+    color:#7c5ce6;
+    margin-top:10px;
+}
+
+p{
+    color:#555;
+    line-height:1.5;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:14px 24px;
+    background:#b39ddb;
+    color:white;
+    text-decoration:none;
+    border-radius:12px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="icon">✅</div>
+
+    <h1>Correo verificado</h1>
+
+    <p>
+        Tu cuenta ha sido activada correctamente.
+    </p>
+
+    <p>
+        Ya puedes volver a la aplicación e iniciar sesión.
+    </p>
+
+    <button class="btn" onclick="volverApp()">
+    Volver a la aplicación
+</button>
+
+</div>
+
+<script>
+function volverApp() {
+
+    if (window.history.length > 1) {
+        history.back();
+        return;
+    }
+
+    window.close();
+}
+</script>
+
+</body>
+</html>

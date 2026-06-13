@@ -17,6 +17,7 @@ const supabaseClient = supabase.createClient(
 let allConfessions = [];
 let users = [];
 let currentUser = null;
+let currentFilter = "all";
 
 // ========================================
 // ELEMENTOS
@@ -54,6 +55,21 @@ const feedStatus =
     document.getElementById(
         "feedStatus"
     );
+
+const imageModal =
+document.getElementById(
+"imageModal"
+);
+
+const modalImage =
+document.getElementById(
+"modalImage"
+);
+
+const closeModal =
+document.getElementById(
+"closeModal"
+);    
 
 // ========================================
 // INIT
@@ -271,12 +287,22 @@ function renderConfessions(
     profileId
 ) {
 
-    const confessions =
-        allConfessions.filter(
+    let confessions =
+    allConfessions.filter(
+        confession =>
+            confession.receiver_profile_id ===
+            profileId
+    );
+
+if(currentFilter !== "all"){
+
+    confessions =
+        confessions.filter(
             confession =>
-                confession.receiver_profile_id ===
-                profileId
+                confession.status ===
+                currentFilter
         );
+}
 
     if (
         confessions.length === 0
@@ -338,24 +364,25 @@ function renderConfessions(
 
                 </div>
 
+                <div class="message-box">
+    ${confession.message}
+</div>
+
                 ${
                     confession.image_url
                     ?
                     `
                     <img
-                        src="${confession.image_url}"
-                        class="card-image"
-                    >
+    src="${confession.image_url}"
+    class="card-image"
+    onclick="openImage('${confession.image_url}')"
+>
                     `
                     :
                     ""
                 }
 
-                <p class="message">
-                    ${
-                        confession.message
-                    }
-                </p>
+               
 
                 <div class="card-actions">
 
@@ -499,6 +526,52 @@ async function deleteConfession(
 // ========================================
 // FECHA
 // ========================================
+
+function openImage(src){
+
+    modalImage.src = src;
+
+    imageModal.classList.add(
+        "active"
+    );
+}
+
+closeModal.onclick = () => {
+
+    imageModal.classList.remove(
+        "active"
+    );
+
+};
+
+imageModal.onclick = (e) => {
+
+    if(
+        e.target === imageModal
+    ){
+        imageModal.classList.remove(
+            "active"
+        );
+    }
+
+};
+
+function filterConfessions(status){
+
+    currentFilter = status;
+
+    document
+    .querySelectorAll(".filter-btn")
+    .forEach(btn =>
+        btn.classList.remove("active")
+    );
+
+    event.target.classList.add(
+        "active"
+    );
+
+    renderConfessions(currentUser);
+}
 
 function formatDate(
     dateString

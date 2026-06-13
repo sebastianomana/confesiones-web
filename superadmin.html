@@ -69,6 +69,26 @@
 
         </div>
 
+        <div class="filters">
+
+    <button class="filter-btn active" onclick="filterConfessions('all')">
+        Todas
+    </button>
+
+    <button class="filter-btn" onclick="filterConfessions('approved')">
+        Aprobadas
+    </button>
+
+    <button class="filter-btn" onclick="filterConfessions('pending')">
+        Pendientes
+    </button>
+
+    <button class="filter-btn" onclick="filterConfessions('rejected')">
+        Rechazadas
+    </button>
+
+</div>
+
         <div id="confessionsContainer" class="confessions-container">
 
             <div class="empty-state">
@@ -78,6 +98,20 @@
         </div>
 
     </main>
+
+</div>
+
+<div id="imageModal" class="image-modal">
+
+    <span id="closeModal" class="close-modal">
+        ✕
+    </span>
+
+    <img
+        id="modalImage"
+        class="modal-image"
+        src=""
+    >
 
 </div>
 

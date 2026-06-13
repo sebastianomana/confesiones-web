@@ -8,8 +8,9 @@ body{
 font-family:'Inter',sans-serif;
 background:#0f1117;
 color:white;
-height:100vh;
-overflow:hidden;
+min-height:100vh;
+overflow-x:hidden;
+overflow-y:auto;
 }
 
 body::before{
@@ -26,7 +27,7 @@ z-index:-1;
 
 .container{
 display:flex;
-height:100vh;
+min-height:100vh;
 }
 
 /* USERS PANEL */
@@ -139,6 +140,19 @@ border-radius:50%;
 object-fit:cover;
 }
 
+@media(max-width:600px){
+
+.user-header img{
+width:70px;
+height:70px;
+}
+
+.user-header{
+padding:18px;
+}
+
+}
+
 .feed-status{
 display:inline-block;
 
@@ -195,15 +209,50 @@ background:#ef444433;
 color:#f87171;
 }
 
-.message{
-line-height:1.7;
+.message-box{
+margin-top:15px;
 margin-bottom:20px;
+
+padding:16px;
+
+background:#161923;
+
+border-radius:16px;
+
+line-height:1.8;
+font-size:16px;
 }
 
 .card-image{
 width:100%;
+height:220px;
+object-fit:cover;
 border-radius:20px;
 margin-bottom:15px;
+display:block;
+cursor:pointer;
+transition:.2s;
+}
+
+.card-image:hover{
+opacity:.9;
+}
+
+
+
+.image-container{
+width:100%;
+height:320px;
+overflow:hidden;
+border-radius:20px;
+margin-bottom:15px;
+}
+
+.image-container img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
 }
 
 .card-actions{
@@ -250,7 +299,8 @@ height:auto;
 
 .users-panel{
 width:100%;
-height:300px;
+height:260px;
+min-height:260px;
 }
 
 .content{
@@ -275,4 +325,68 @@ width:45px;
 height:45px;
 }
 
+}
+
+/* MODAL IMAGEN */
+
+.image-modal{
+position:fixed;
+inset:0;
+
+background:rgba(0,0,0,.95);
+
+display:none;
+justify-content:center;
+align-items:center;
+
+z-index:9999;
+padding:20px;
+}
+
+.image-modal.active{
+display:flex;
+}
+
+.modal-image{
+max-width:95%;
+max-height:90vh;
+border-radius:20px;
+object-fit:contain;
+}
+
+.close-modal{
+position:absolute;
+top:20px;
+right:25px;
+
+font-size:32px;
+cursor:pointer;
+color:white;
+}
+
+
+.filters{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.filter-btn{
+border:none;
+padding:12px 18px;
+border-radius:14px;
+cursor:pointer;
+background:#1b1d27;
+color:white;
+font-weight:600;
+transition:.2s;
+}
+
+.filter-btn:hover{
+background:#2a2d3d;
+}
+
+.filter-btn.active{
+background:#8b5cf6;
 }
