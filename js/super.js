@@ -120,8 +120,7 @@ const adminPassword =
         !adminEmail ||
         !adminPassword
     ){
-        window.location.href =
-            "admin-login.html";
+        window.location.href = "explorar.html";
         return;
     }
 
