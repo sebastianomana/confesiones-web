@@ -39,17 +39,17 @@ form.addEventListener("submit", async (e) => {
             return;
         }
 
-        sessionStorage.setItem(
+localStorage.setItem(
     "superadmin",
     "true"
 );
 
-sessionStorage.setItem(
+localStorage.setItem(
     "superadmin_email",
     email
 );
 
-sessionStorage.setItem(
+localStorage.setItem(
     "superadmin_password",
     password
 );

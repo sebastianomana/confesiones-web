@@ -106,13 +106,13 @@ init();
 
 async function init() {
 
-    const adminEmail =
-    sessionStorage.getItem(
+const adminEmail =
+    localStorage.getItem(
         "superadmin_email"
     );
 
 const adminPassword =
-    sessionStorage.getItem(
+    localStorage.getItem(
         "superadmin_password"
     );
 
@@ -133,7 +133,7 @@ const adminPassword =
             .single();
 
     if(!admin){
-        sessionStorage.clear();
+        localStorage.clear();
 
         window.location.href =
             "admin-login.html";
@@ -792,11 +792,11 @@ if(logoutBtn){
 
     logoutBtn.onclick = () => {
 
-        sessionStorage.clear();
+    localStorage.clear();
 
-        window.location.href =
-            "explorar.html";
+    window.location.href =
+        "explorar.html";
 
-    };
+};
 
 }
