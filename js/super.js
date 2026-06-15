@@ -595,7 +595,7 @@ async function approveConfession(id) {
     }
 
     await loadData();
-}const row = await supabaseClient
+}
 
 // ========================================
 // RECHAZAR
