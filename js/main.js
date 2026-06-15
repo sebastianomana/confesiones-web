@@ -11,8 +11,15 @@ async function initProfile() {
     const username = params.get('u');
 
     if (!username) {
-        return;
-    }
+
+    document.getElementById('pageTitle').innerHTML =
+        '💜 Usuario no especificado';
+
+    document.getElementById('confessionForm')
+        .style.display = 'none';
+
+    return;
+}
 
     const { data: profile, error } =
         await supabase

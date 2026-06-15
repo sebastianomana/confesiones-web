@@ -81,6 +81,13 @@ confessionStatus =
         ? 'pending'
         : 'approved';
 
+        if (!window.receiverProfileId) {
+    alert(
+        "No se encontró el destinatario."
+    );
+    return;
+}
+
     const { error } = await supabase
         .from('confessions')
        .insert({

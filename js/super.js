@@ -575,19 +575,21 @@ if(searchText){
 
 async function approveConfession(id) {
 
-    console.log("ID recibido:", id);
+    const confirmApprove =
+        confirm(
+            "¿Deseas aprobar esta confesión?"
+        );
 
-    const { data, error } =
+    if (!confirmApprove)
+        return;
+
+    const { error } =
         await supabaseClient
             .from("confessions")
             .update({
                 status: "approved"
             })
-            .eq("id", id)
-            .select();
-
-    console.log("DATA:", data);
-    console.log("ERROR:", error);
+            .eq("id", id);
 
     if (error) {
         alert(error.message);
