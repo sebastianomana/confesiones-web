@@ -12,14 +12,31 @@ async function initProfile() {
 
     if (!username) {
 
-    document.getElementById('pageTitle').innerHTML =
-        '💜 Usuario no especificado';
+        document.querySelector('.container').innerHTML = `
+            <h1 style="
+                text-align:center;
+                color:#8f74d8;
+            ">
+                💜 Confiesa
+            </h1>
 
-    document.getElementById('confessionForm')
-        .style.display = 'none';
+            <p style="
+                text-align:center;
+            ">
+                Debes acceder mediante el enlace de un usuario.
+            </p>
 
-    return;
-}
+            <p style="
+                text-align:center;
+                color:#777;
+            ">
+                Ejemplo:
+                confiesa.app/?u=usuario
+            </p>
+        `;
+
+        return;
+    }
 
     const { data: profile, error } =
         await supabase
