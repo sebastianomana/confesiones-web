@@ -572,23 +572,26 @@ if(searchText){
 // APROBAR
 // ========================================
 
-async function approveConfession(
-    id
-) {
+async function approveConfession(id) {
 
-    const { error } =
+    console.log("ID recibido:", id);
+
+    const result =
         await supabaseClient
             .from("confessions")
             .update({
-                status:
-                    "approved"
+                status: "approved"
             })
             .eq("id", id);
 
-    if (error) {
-        alert(error.message);
+    console.log("RESULTADO:", result);
+
+    if(result.error){
+        alert(result.error.message);
         return;
     }
+
+    alert("UPDATE OK");
 
     await loadData();
 }
