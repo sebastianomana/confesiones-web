@@ -322,7 +322,7 @@ const pending =
 <div class="user-stats">
 
     <small>
-        📝 ${total} confesiones
+        📝 ${total} 
     </small>
 
     <small>
