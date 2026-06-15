@@ -257,6 +257,27 @@ function renderUsers() {
             );
 
         })
+        .sort((a, b) => {
+
+    const pendingA =
+        allConfessions.filter(
+            confession =>
+                confession.receiver_profile_id ===
+                a.receiver_profile_id &&
+                confession.status === "pending"
+        ).length;
+
+    const pendingB =
+        allConfessions.filter(
+            confession =>
+                confession.receiver_profile_id ===
+                b.receiver_profile_id &&
+                confession.status === "pending"
+        ).length;
+
+    return pendingB - pendingA;
+
+})
         .forEach(user => {
 
             const total =
@@ -281,6 +302,8 @@ const pending =
             user.receiver_profile_id &&
             confession.status === "pending"
     ).length;
+    const hasPending =
+    pending > 0;
 
     const rejected =
     allConfessions.filter(
@@ -309,11 +332,16 @@ const pending =
                 <div class="user-info">
 
                     <h4>
-                        ${
-                            user.display_name ||
-                            'Usuario'
-                        }
-                    </h4>
+    ${
+        hasPending
+            ? '🔴 '
+            : ''
+    }
+    ${
+        user.display_name ||
+        'Usuario'
+    }
+</h4>
 
                     <p>
                         @${user.username}
