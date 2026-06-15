@@ -282,6 +282,14 @@ const pending =
             confession.status === "pending"
     ).length;
 
+    const rejected =
+    allConfessions.filter(
+        confession =>
+            confession.receiver_profile_id ===
+            user.receiver_profile_id &&
+            confession.status === "rejected"
+    ).length;
+    
             const div =
                 document.createElement(
                     "div"
@@ -311,7 +319,7 @@ const pending =
                         @${user.username}
                     </p>
 
-                    <div class="user-stats">
+<div class="user-stats">
 
     <small>
         📝 ${total} confesiones
@@ -323,6 +331,10 @@ const pending =
 
     <small>
         ⏳ ${pending}
+    </small>
+
+    <small>
+        ❌ ${rejected}
     </small>
 
 </div>
