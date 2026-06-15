@@ -189,12 +189,13 @@ updateDashboard();
 
     renderUsers();
 
-    if (users.length > 0) {
-        showUser(
-            users[0]
-                .receiver_profile_id
-        );
-    }
+    if (currentUser) {
+    showUser(currentUser);
+} else if (users.length > 0) {
+    showUser(
+        users[0].receiver_profile_id
+    );
+}
 }
 
 // ========================================
@@ -576,22 +577,22 @@ async function approveConfession(id) {
 
     console.log("ID recibido:", id);
 
-    const result =
+    const { data, error } =
         await supabaseClient
             .from("confessions")
             .update({
                 status: "approved"
             })
-            .eq("id", id);
+            .eq("id", id)
+            .select();
 
-    console.log("RESULTADO:", result);
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
 
-    if(result.error){
-        alert(result.error.message);
+    if (error) {
+        alert(error.message);
         return;
     }
-
-    alert("UPDATE OK");
 
     await loadData();
 }const row = await supabaseClient
